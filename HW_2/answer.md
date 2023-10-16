@@ -1,19 +1,44 @@
-Q1:
-- a: e = (1 + 1/n)^n The error of the estimated e and the referenced e is getting smaller as the value of n is larger. But, after 1*10^5, the error is getting larger. This might because the precision of the Single Precision Float of the 1/n part reaches its smallest limit, but the exponent n is not limited, so the error is getting larger. 
-- In single precision arithmetic, as n becomes large, the addition operation 1/n can lead to a loss of precision, as most of the significant bits of are lost in the addition. This error is then propagated through the remaining calculations.
-- b: e = exp(n * log(1 + 1/n)) The new method does not improving the estimation. But as the log(1+x) = 0 as x is approaching to 0, the new equation could be e = exp(1) as n is approaching to infinite.
-- With the more improved method, e = exp(n * (1/n)), the accuracy of the estimation was improved.
+## Q1: Estimation of Euler's Number (e)
 
-Q2: 
+**a. Using the formula:**
+\[ e = (1 + \frac{1}{n})^n \]
+- The error between the estimated \( e \) and the referenced \( e \) decreases as \( n \) grows. However, starting from \( n = 1 \times 10^5 \), the error begins to grow again. This is likely due to the precision limits of single-precision floating-point arithmetic. When \( n \) is large, the term \( \frac{1}{n} \) becomes very small, and adding it to 1 can lead to a significant loss of precision.
 
-The output illustrates the cumulative inaccuracies of single precision arithmetic when performing repeated operations. For small values of \( n \) (2 and 5), the reconstructed value remains accurate. However, as \( n \) increases, rounding errors compound, leading to noticeable deviations by \( n = 10 \) and significant inaccuracies by \( n = 20 \). Beyond \( n = 30 \), the value collapses to 1, highlighting the severe loss of precision. This behavior underscores the limitations of single precision arithmetic, where repeated mathematical operations can amplify minor errors, causing substantial deviations from expected results.
+**b. Using the improved formula:**
+\[ e = \exp(n \times \log(1 + \frac{1}{n})) \]
+- While the improved method doesn't necessarily enhance the estimation accuracy, it provides a theoretical benefit. As \( \log(1+x) \) approaches 0 when \( x \) approaches 0, the equation converges to \( e = \exp(1) \) as \( n \) goes to infinity.
+- The further improved method:
+  \[ e = \exp(n \times \frac{1}{n}) \]
+  improves the accuracy of the estimation.
 
-Q3:
-The output from `Q3` underscores the nuances of numerical computation and the pitfalls of handling values that approach limits. For values of \( x \) closer to zero, the direct computation method (`Original method`) becomes unstable, resulting in values of \( z \) that deviate from the expected 1. On the other hand, the `Alternative method` consistently provides the expected value of \( z \), which is 1, even as \( x \) nears zero.
+---
 
-This exercise illustrates the benefit of using double precision over single precision. Double precision offers a greater number of significant digits and a larger exponent range, ensuring that intermediate computations retain more accuracy and are less prone to rounding errors. In essence, double precision enhances the reliability of numerical calculations, especially in scenarios where precision is paramount or where values are very close to computational limits.
+## Q2: Cumulative Errors in Repeated Arithmetic
 
-Q4:
-From the output of Q4, there's a noticeable difference between the exponents obtained through the expensive method and the alternative method. The expensive method, which involves directly using the logarithm function, provides a more accurate estimation of the exponent, albeit at a potentially higher computational cost. In contrast, the alternative method leverages knowledge of the IEEE double precision format and bit manipulation to quickly approximate the exponent, but it may not be as precise due to the conversion from a base-2 to a base-10 logarithm.
+The exercise demonstrates the accumulation of rounding errors in single precision arithmetic. For smaller values of \( n \), the reconstructed value is accurate. However, as \( n \) increases, rounding errors compound:
+- For \( n = 2 \) and \( n = 5 \), the results are fairly accurate.
+- By \( n = 10 \), the errors become evident.
+- By \( n = 20 \), the inaccuracies are significant.
+- Beyond \( n = 30 \), the result collapses to 1, highlighting the substantial loss of precision.
 
-The divergence between the two methods underscores the trade-off between precision and computational efficiency. While direct mathematical operations often yield more accurate results, understanding and utilizing the underlying representations of data, as seen in the alternative method, can offer substantial computational savings. This is particularly relevant in scenarios where performance is a priority and slight inaccuracies can be tolerated.
+---
+
+## Q3: Evaluating Mathematical Limits
+
+The results from `Q3` highlight the nuances of numerical computation:
+- As \( x \) approaches zero, the `Original method` becomes unstable, leading to deviations from the expected value of \( z \) which should be 1.
+- The `Alternative method` consistently yields the correct value, even for values of \( x \) very close to zero.
+
+This comparison emphasizes the advantage of double over single precision, especially when dealing with values nearing computational limits.
+
+---
+
+## Q4: Estimating Exponents
+
+The output for `Q4` demonstrates a clear difference between the two exponent estimation methods:
+- The **Expensive method**, which uses direct logarithm computation, offers more accuracy but at a potentially higher computational cost.
+- The **Alternative method** quickly approximates the exponent by exploiting the IEEE double precision format's bit representation. However, the conversion from a base-2 to a base-10 logarithm may introduce some inaccuracy.
+
+This distinction highlights the trade-offs between precision and computational efficiency. Direct mathematical approaches might be more accurate, but leveraging data representations, as done in the alternative method, can enhance computational speed at the expense of slight inaccuracies.
+
+---
