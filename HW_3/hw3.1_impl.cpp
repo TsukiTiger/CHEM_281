@@ -17,7 +17,7 @@ std::complex<double> MyPotential::eval(const std::complex<double> r)
 
 std::complex<double> MyCosine::eval(const std::complex<double> r)
 {
-  return std::cos(r);
+    return std::cos(r);
 }
 
 
@@ -34,17 +34,18 @@ std::complex<double> MyCosine::eval(const std::complex<double> r)
 double firstDerivative(Derivable& d, const double x)
 {
     const double h = std::sqrt(std::numeric_limits<double>::epsilon());
+    const double h_nextafter = (x != 0.0) ? std::abs(nextafter(x, std::numeric_limits<double>::max()) - x) : 1e-12;
 
-    // Complex step derivative
     std::complex<double> z(x, h);
     double complexStepDerivative = std::imag(d.eval(z) / h);
 
-    // Finite difference method (Forward difference)
     double finiteDiffDerivative = (std::real(d.eval(x + h)) - std::real(d.eval(x))) / h;
+
+    double nextafterDerivative = (std::real(d.eval(x + h_nextafter)) - std::real(d.eval(x))) / h_nextafter;
 
     std::cout << "Complex Step Derivative: " << complexStepDerivative << std::endl;
     std::cout << "Finite Difference Derivative: " << finiteDiffDerivative << std::endl;
+    std::cout << "Nextafter Finite Difference Derivative: " << nextafterDerivative << std::endl;
 
-    // Depending on what you need, return one of the derivatives or both
-    return complexStepDerivative; // Or finiteDiffDerivative
+    return complexStepDerivative; // Or any other derivative you wish to return
 }

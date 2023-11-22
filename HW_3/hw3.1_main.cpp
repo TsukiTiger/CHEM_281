@@ -16,5 +16,6 @@ int main(int argc, char* argv[])
   printf("derivative: %1.17e at: %1.17e\n", dfdrc, M_PI/2);
   const double dfdrc2 = firstDerivative(mycosine, 0.e+00);
   printf("derivative: %1.17e at: %1.17e\n", dfdrc2, 0.e+00);
+
   return EXIT_SUCCESS;
 }
